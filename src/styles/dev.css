@@ -1,0 +1,23 @@
+/* Dev-only floating toolbar (never in production builds). */
+.dev-bar {
+  position: fixed;
+  left: max(12px, env(safe-area-inset-left, 0px));
+  bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  z-index: 1000;
+  display: flex; align-items: center; gap: 6px;
+  padding: 4px 4px 4px 10px;
+  background: var(--fg); color: var(--bg);
+  border-radius: 999px;
+  box-shadow: var(--shadow);
+  font-family: var(--font-mono); font-size: 0.75rem;
+  opacity: 0.55;
+  transition: opacity var(--duration-fast);
+}
+.dev-bar:hover, .dev-bar:focus-within { opacity: 1; }
+.dev-bar-tag { font-weight: 700; letter-spacing: 0.08em; color: var(--bad-soft); }
+.dev-bar button {
+  min-height: 28px; padding: 0 10px; border: 0; border-radius: 999px;
+  background: var(--bg); color: var(--fg);
+  font: inherit; cursor: pointer;
+}
+.dev-bar button:hover { background: var(--accent-soft); }

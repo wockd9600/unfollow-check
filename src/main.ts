@@ -119,3 +119,8 @@ ui.drop.addEventListener('drop', (e) => {
 });
 
 setupInstall();
+
+// Dev only: floating bar to jump straight to the result screen (`?demo` too).
+if (import.meta.env.DEV) {
+  void import('./dev').then(({ setupDev }) => setupDev(showResult));
+}
