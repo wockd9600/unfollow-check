@@ -106,6 +106,60 @@ h1 { margin: 0; font-size: clamp(1.75rem, 1.3rem + 2.2vw, 2.25rem); font-weight:
 .howto b { color: var(--fg); font-weight: 500; }
 .howto code { font-family: var(--font-mono); font-size: 0.85em; color: var(--fg); background: var(--surface-2); padding: 1px 5px; border-radius: 4px; }
 
+/* Screenshot strip inside the archive guide: swipe sideways, numbered, with a tap ripple */
+.howto .shots {
+  /* Bleed past the list indent (34px) and card padding (18px) so the strip spans the card */
+  --bleed-start: 34px; --bleed-end: 18px;
+  --shot-w: min(80%, 300px);
+  list-style: none; counter-reset: shot;
+  display: grid; grid-auto-flow: column; grid-auto-columns: var(--shot-w); gap: 12px; align-items: start;
+  margin: 10px calc(var(--bleed-end) * -1) 2px calc(var(--bleed-start) * -1);
+  padding: 2px var(--bleed-end) 10px var(--bleed-start);
+  scroll-padding-inline: var(--bleed-start) var(--bleed-end);
+  overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+}
+.howto .shots:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; border-radius: var(--radius-md); }
+.shot { counter-increment: shot; scroll-snap-align: start; }
+.shot figure { margin: 0; display: grid; gap: 8px; }
+.shot-frame {
+  position: relative; overflow: hidden;
+  border-radius: var(--radius-md); background: #000;
+  box-shadow: 0 0 0 1px var(--shot-edge), var(--shadow);
+}
+.shot-frame img { display: block; width: 100%; height: auto; }
+.shot figcaption { display: flex; align-items: center; gap: 6px; font-size: 0.85rem; line-height: 1.3; }
+.shot figcaption::before {
+  content: counter(shot);
+  flex: none; display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%;
+  background: var(--accent); color: var(--accent-ink);
+  font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600;
+}
+
+/* Tap marker: positions are % of each screenshot, matching the red highlight boxes */
+.tap {
+  --size: 16px;
+  position: absolute; left: var(--x); top: var(--y);
+  width: var(--size); height: var(--size); margin: calc(var(--size) / -2) 0 0 calc(var(--size) / -2);
+  border-radius: 50%; background: rgb(255 255 255 / 0.45);
+  box-shadow: inset 0 0 0 2px rgb(255 255 255 / 0.95), 0 2px 8px rgb(0 0 0 / 0.45);
+  pointer-events: none;
+}
+.tap::after {
+  content: ""; position: absolute; inset: 0; border-radius: 50%;
+  border: 2px solid rgb(255 255 255 / 0.9); opacity: 0;
+  animation: tap-ripple 1.6s var(--ease-out) infinite;
+}
+.shot:nth-child(1) .tap { --x: 31%; --y: 32.6%; }
+.shot:nth-child(2) .tap { --x: 49%; --y: 70.5%; }
+.shot:nth-child(3) .tap { --x: 76.5%; --y: 90%; }
+.shot:nth-child(2) .tap::after { animation-delay: 0.25s; }
+.shot:nth-child(3) .tap::after { animation-delay: 0.5s; }
+@keyframes tap-ripple {
+  0% { transform: scale(1); opacity: 0.9; }
+  70%, 100% { transform: scale(3.2); opacity: 0; }
+}
+
 /* ---------- Loaded bar ---------- */
 .loaded {
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
