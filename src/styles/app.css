@@ -46,11 +46,15 @@ button { font: inherit; color: inherit; }
 h1 { margin: 0; font-size: clamp(1.75rem, 1.3rem + 2.2vw, 2.25rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; }
 .lede { margin: 0; color: var(--muted); font-size: 0.95rem; text-wrap: pretty; }
 .privacy {
-  align-self: flex-start; display: inline-flex; align-items: center; gap: 6px;
-  margin: 6px 0 0; padding: 5px 11px 5px 9px; border-radius: 999px;
+  display: flex; align-items: flex-start; gap: 10px;
+  margin: 10px 0 0; padding: 12px 14px; border-radius: var(--radius-md);
   background: var(--accent-soft); color: var(--accent);
-  font-size: 0.8rem; font-weight: 500;
 }
+.privacy svg { flex: none; margin-top: 1px; }
+.privacy-body { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.privacy-title { margin: 0; font-size: 0.88rem; font-weight: 700; line-height: 1.45; }
+.privacy-title .nb { display: inline-block; }
+.privacy-note { margin: 0; font-size: 0.8rem; line-height: 1.5; color: var(--muted); text-wrap: pretty; }
 
 /* ---------- Upload ---------- */
 .upload { display: flex; flex-direction: column; gap: 12px; }
