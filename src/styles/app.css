@@ -60,9 +60,69 @@ h1 { margin: 0; font-size: clamp(1.75rem, 1.3rem + 2.2vw, 2.25rem); font-weight:
 .privacy-title { margin: 0; font-size: 0.88rem; font-weight: 700; line-height: 1.45; }
 .privacy-title .nb { display: inline-block; }
 .privacy-note { margin: 0; font-size: 0.8rem; line-height: 1.5; color: var(--muted); text-wrap: pretty; }
+.privacy-warn { margin: 4px 0 0; font-size: 0.8rem; line-height: 1.5; color: var(--fg); font-weight: 500; }
 
 /* ---------- Upload ---------- */
-.upload { display: flex; flex-direction: column; gap: 12px; }
+.upload { display: flex; flex-direction: column; gap: 14px; }
+
+/* Steps: request → wait → upload, joined by a rail between the numbers */
+.steps {
+  list-style: none; margin: 0; padding: 20px 18px 22px;
+  display: flex; flex-direction: column;
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+}
+.step {
+  position: relative;
+  display: grid; grid-template-columns: 28px minmax(0, 1fr); column-gap: 14px; align-content: start;
+  padding-bottom: 26px;
+}
+.step:last-child { padding-bottom: 0; }
+.step::before {
+  content: ""; position: absolute; left: 13.25px; top: 36px; bottom: 8px;
+  width: 1.5px; border-radius: 1px; background: var(--line);
+}
+.step:last-child::before { display: none; }
+.step > * { grid-column: 2; }
+.step-num {
+  grid-column: 1; grid-row: 1;
+  display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%;
+  background: var(--accent); color: var(--accent-ink);
+  font-family: var(--font-mono); font-size: 0.82rem; font-weight: 600;
+  transition: background-color var(--duration-normal), color var(--duration-normal);
+}
+.step-wait .step-num { background: var(--surface); color: var(--muted); box-shadow: inset 0 0 0 1.5px var(--line); }
+.step.done .step-num { background: var(--accent-soft); color: var(--accent); font-size: 0; }
+.step.done .step-num::after { content: "✓"; font-size: 0.9rem; font-weight: 700; }
+.step.done::before { background: color-mix(in srgb, var(--accent) 45%, var(--line)); }
+.step-title { grid-row: 1; margin: 0; font-size: 1.02rem; font-weight: 700; line-height: 28px; letter-spacing: -0.01em; }
+.step-text { margin: 4px 0 0; color: var(--muted); font-size: 0.88rem; line-height: 1.55; text-wrap: pretty; }
+.step-note {
+  margin: 10px 0 0; padding: 10px 12px; border-radius: var(--radius-sm);
+  background: var(--accent-soft); color: var(--fg); font-size: 0.85rem; line-height: 1.5;
+  animation: reveal var(--duration-normal) var(--ease-out);
+}
+.step-upload .drop { margin-top: 12px; }
+
+.cta {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: var(--tap); margin-top: 14px; padding: 0 18px;
+  border-radius: var(--radius-md); background: var(--surface); color: var(--fg);
+  box-shadow: inset 0 0 0 1px var(--line);
+  font-size: 0.92rem; font-weight: 500; text-decoration: none;
+  transition: transform var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast), background-color var(--duration-fast);
+}
+.cta:hover { box-shadow: inset 0 0 0 1.5px var(--accent); }
+.cta:active { transform: scale(0.98); background: var(--accent-soft); }
+.step-hint { margin: 6px 0 0; font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+.safe-note {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  margin: 10px 0 0; font-size: 0.8rem; color: var(--accent); font-weight: 500; text-align: center;
+}
+.safe-note svg { flex: none; }
+
+.step-upload .error { margin-top: 12px; }
+
 .drop {
   position: relative;
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
@@ -87,34 +147,19 @@ h1 { margin: 0; font-size: clamp(1.75rem, 1.3rem + 2.2vw, 2.25rem); font-weight:
 }
 .drop-title { font-size: 1.1rem; font-weight: 700; }
 .drop-sub { font-size: 0.85rem; color: var(--muted); }
+.drop-sub .nb { display: inline-block; }
+.step-upload .drop { min-height: 168px; padding: 22px 16px; box-shadow: none; background: var(--surface-2); }
 
 .error {
   margin: 0; padding: 12px 14px; border-radius: var(--radius-md);
   background: var(--bad-soft); color: var(--bad); font-size: 0.9rem;
 }
 
-.howto {
-  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-md);
-}
-.howto summary {
-  display: flex; align-items: center; justify-content: space-between;
-  min-height: var(--tap); padding: 0 16px; cursor: pointer; font-weight: 500; list-style: none;
-}
-.howto summary::-webkit-details-marker { display: none; }
-.howto summary::after {
-  content: ""; width: 8px; height: 8px; margin-right: 4px;
-  border-right: 1.6px solid var(--muted); border-bottom: 1.6px solid var(--muted);
-  transform: rotate(45deg) translateY(-2px); transition: transform var(--duration-normal) var(--ease-out);
-}
-.howto[open] summary::after { transform: rotate(-135deg) translateY(-2px); }
-.howto ol { margin: 0; padding: 0 18px 16px 34px; color: var(--muted); font-size: 0.9rem; display: grid; gap: 6px; }
-.howto b { color: var(--fg); font-weight: 500; }
-.howto code { font-family: var(--font-mono); font-size: 0.85em; color: var(--fg); background: var(--surface-2); padding: 1px 5px; border-radius: 4px; }
-
-/* Screenshot strip inside the archive guide: swipe sideways, numbered, with a tap ripple */
-.howto .shots {
-  /* Bleed past the list indent (34px) and card padding (18px) so the strip spans the card */
-  --bleed-start: 34px; --bleed-end: 18px;
+/* Screenshot strip in step 1: swipe sideways, numbered, with a tap ripple */
+.step b { color: var(--fg); font-weight: 500; }
+.shots {
+  /* Bleed to the card's right edge (steps padding) so the strip reads as swipeable */
+  --bleed-start: 0px; --bleed-end: 18px;
   --shot-w: min(80%, 300px);
   list-style: none; counter-reset: shot;
   display: grid; grid-auto-flow: column; grid-auto-columns: var(--shot-w); gap: 12px; align-items: start;
@@ -124,7 +169,7 @@ h1 { margin: 0; font-size: clamp(1.75rem, 1.3rem + 2.2vw, 2.25rem); font-weight:
   overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
   scrollbar-width: thin;
 }
-.howto .shots:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; border-radius: var(--radius-md); }
+.shots:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; border-radius: var(--radius-md); }
 .shot { counter-increment: shot; scroll-snap-align: start; }
 .shot figure { margin: 0; display: grid; gap: 8px; }
 .shot-frame {
@@ -299,6 +344,7 @@ h1 { margin: 0; font-size: clamp(1.75rem, 1.3rem + 2.2vw, 2.25rem); font-weight:
 @media (min-width: 720px) {
   .app { padding-top: 64px; gap: 24px; }
   .drop { min-height: 260px; }
+  .step-upload .drop { min-height: 200px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

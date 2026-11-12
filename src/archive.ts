@@ -18,13 +18,13 @@ const ACCOUNT_ID_PATTERN = /^\d{1,25}$/;
 /** Parses `window.YTD.follower.part0 = [...]` into its JSON array. */
 export function parseYtd(text: string): unknown[] {
   const eq = text.indexOf('=');
-  if (eq < 0) throw new ArchiveError('파일 형식을 읽지 못했어요. X 아카이브의 원본 .js 파일인지 확인해 주세요.');
+  if (eq < 0) throw new ArchiveError('파일 형식을 읽지 못했어요. X 기록 파일의 원본 .js 파일인지 확인해 주세요.');
   try {
     const parsed: unknown = JSON.parse(text.slice(eq + 1).trim().replace(/;\s*$/, ''));
     if (!Array.isArray(parsed)) throw new Error('not an array');
     return parsed;
   } catch {
-    throw new ArchiveError('파일 내용이 손상됐거나 X 아카이브 형식이 아니에요.');
+    throw new ArchiveError('파일 내용이 손상됐거나 X 기록 파일 형식이 아니에요.');
   }
 }
 
@@ -80,7 +80,7 @@ export async function readArchive(files: readonly File[]): Promise<Archive> {
   }
 
   if (!found.followers && !found.following) {
-    throw new ArchiveError('follower.js와 following.js를 찾지 못했어요. 아카이브 zip을 그대로 넣거나 data 폴더의 두 파일을 넣어 주세요.');
+    throw new ArchiveError('follower.js와 following.js를 찾지 못했어요. 받은 zip을 그대로 넣거나 data 폴더의 두 파일을 넣어 주세요.');
   }
   if (!found.followers) throw new ArchiveError('follower.js가 없어요. following.js와 함께 넣어 주세요.');
   if (!found.following) throw new ArchiveError('following.js가 없어요. follower.js와 함께 넣어 주세요.');

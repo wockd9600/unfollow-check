@@ -5,6 +5,7 @@ import { GROUP_KEYS, classify, type GroupKey, type Groups } from './classify';
 import { loadVisible, saveVisible } from './prefs';
 import { buildChip, buildGroup, fmt } from './render';
 import { setupInstall } from './install';
+import { setupOnboarding } from './onboarding';
 
 interface State {
   readonly groups: Groups | null;
@@ -83,7 +84,7 @@ async function handleFiles(files: readonly File[]): Promise<void> {
   } finally {
     ui.drop.classList.remove('busy');
     ui.drop.removeAttribute('aria-busy');
-    ui.dropTitle.textContent = '아카이브 zip 선택';
+    ui.dropTitle.textContent = 'zip 파일 선택';
   }
 }
 
@@ -119,6 +120,7 @@ ui.drop.addEventListener('drop', (e) => {
 });
 
 setupInstall();
+setupOnboarding();
 
 // Dev only: floating bar to jump straight to the result screen (`?demo` too).
 if (import.meta.env.DEV) {
