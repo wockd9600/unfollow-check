@@ -44,6 +44,11 @@ button { font: inherit; color: inherit; }
   color: var(--accent);
 }
 h1 { margin: 0; font-size: clamp(1.75rem, 1.3rem + 2.2vw, 2.25rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; }
+.title-sub {
+  display: inline-block; margin-left: 0.15em;
+  font-size: 0.5em; font-weight: 500; letter-spacing: -0.01em;
+  color: var(--muted); white-space: nowrap;
+}
 .lede { margin: 0; color: var(--muted); font-size: 0.95rem; text-wrap: pretty; }
 .privacy {
   display: flex; align-items: flex-start; gap: 10px;

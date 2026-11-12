@@ -11,9 +11,9 @@ export default defineConfig({
       injectRegister: 'script-defer',
       includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
       manifest: {
-        name: '맞팔 언팔 체크',
+        name: '맞팔체크',
         short_name: '맞팔체크',
-        description: 'X 데이터 아카이브로 나만 팔로우 중인 계정을 찾아요. 파일은 기기 밖으로 나가지 않아요.',
+        description: 'X 아카이브로 팔취·언팔한 사람, 맞팔 안 하는 계정을 찾아요. 파일은 기기 밖으로 나가지 않아요.',
         lang: 'ko',
         start_url: '/',
         scope: '/',
