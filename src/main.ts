@@ -4,6 +4,7 @@ import { ArchiveError, readArchive, type Archive } from './archive';
 import { GROUP_KEYS, classify, type GroupKey, type Groups } from './classify';
 import { loadVisible, saveVisible } from './prefs';
 import { buildChip, buildGroup, fmt } from './render';
+import { setupInstall } from './install';
 
 interface State {
   readonly groups: Groups | null;
@@ -116,3 +117,5 @@ ui.drop.addEventListener('drop', (e) => {
   ui.drop.classList.remove('drag');
   void handleFiles([...(e.dataTransfer?.files ?? [])]);
 });
+
+setupInstall();

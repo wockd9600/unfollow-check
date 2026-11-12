@@ -212,6 +212,23 @@ h1 { margin: 0; font-size: clamp(1.75rem, 1.3rem + 2.2vw, 2.25rem); font-weight:
 .chip:has(input:checked) .chip-count { color: inherit; opacity: 0.8; }
 .chip:active { transform: scale(0.97); }
 
+/* ---------- Install ---------- */
+.install {
+  display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px;
+  padding: 14px 14px 14px 16px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-md);
+}
+.install-icon { display: block; width: 44px; height: 44px; border-radius: 11px; }
+.install-text { min-width: 0; }
+.install-title { margin: 0; font-size: 0.95rem; font-weight: 700; line-height: 1.3; }
+.install-sub { margin: 2px 0 0; font-size: 0.8rem; color: var(--muted); line-height: 1.4; }
+.install-guide {
+  grid-column: 1 / -1; margin: 2px 0 0; padding: 12px 14px 12px 32px;
+  background: var(--surface-2); border-radius: var(--radius-sm);
+  font-size: 0.85rem; color: var(--fg); display: grid; gap: 6px;
+  animation: reveal var(--duration-normal) var(--ease-out);
+}
+
 /* ---------- Notes ---------- */
 .notes { display: grid; gap: 6px; padding: 8px 2px 0; font-size: 0.8rem; color: var(--muted); }
 .notes p { margin: 0; padding-left: 12px; position: relative; text-wrap: pretty; }
