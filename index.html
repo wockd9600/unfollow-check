@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>맞팔 언팔 체크</title>
+    <meta name="description" content="X 데이터 아카이브로 나만 팔로우 중인 계정을 찾아요. 파일은 기기 밖으로 나가지 않아요." />
+    <meta name="theme-color" content="#f3f5f6" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#11171c" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:title" content="맞팔 언팔 체크" />
+    <meta property="og:description" content="X 아카이브 하나로 나만 팔로우 중인 계정을 찾아요. 파일은 기기 밖으로 나가지 않아요." />
+    <meta property="og:image" content="/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="맞팔체크" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="masthead">
+        <p class="eyebrow">X 아카이브 맞팔 확인</p>
+        <h1>맞팔 언팔 체크</h1>
+        <p class="lede">아카이브 하나만 넣으면 나만 팔로우 중인 계정을 찾아 드려요.</p>
+        <p class="privacy">
+          <svg aria-hidden="true" viewBox="0 0 16 16" width="14" height="14"><path d="M8 1.5 2.75 3.6v4.1c0 3.2 2.2 5.9 5.25 6.8 3.05-.9 5.25-3.6 5.25-6.8V3.6L8 1.5Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="m5.6 8.1 1.7 1.7 3.2-3.4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          파일은 이 기기 밖으로 나가지 않아요
+        </p>
+      </header>
+
+      <section class="upload" id="upload" aria-labelledby="upload-title">
+        <h2 class="visually-hidden" id="upload-title">아카이브 넣기</h2>
+        <label class="drop" id="drop">
+          <input type="file" id="file" accept=".zip,.js,application/zip" multiple />
+          <span class="drop-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="26" height="26"><path d="M12 15.5V4.5m0 0-4 4m4-4 4 4M5 14.5v3a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <span class="drop-title" id="drop-title">아카이브 zip 선택</span>
+          <span class="drop-sub" id="drop-sub">또는 follower.js · following.js 두 파일</span>
+        </label>
+        <p class="error" id="error" role="alert" hidden></p>
+
+        <details class="howto">
+          <summary>아카이브 받는 법</summary>
+          <ol>
+            <li>X 앱에서 <b>설정 및 개인정보</b> → <b>내 계정</b> → <b>데이터 아카이브 다운로드</b>를 요청해요.</li>
+            <li>보통 하루 안에 알림이 와요. 받은 <b>zip을 그대로</b> 여기에 넣으면 돼요.</li>
+            <li>압축을 풀었다면 <code>data/follower.js</code>와 <code>data/following.js</code> 두 파일만 넣어도 돼요.</li>
+          </ol>
+        </details>
+      </section>
+
+      <section class="loaded" id="loaded" hidden aria-live="polite">
+        <p class="loaded-stats" id="loaded-stats"></p>
+        <button type="button" class="ghost" id="reset">다른 파일</button>
+      </section>
+
+      <section class="groups" id="groups" hidden aria-label="결과"></section>
+
+      <fieldset class="options" id="options" hidden>
+        <legend>표시할 목록</legend>
+        <div class="chips" id="chips"></div>
+      </fieldset>
+
+      <footer class="notes">
+        <p>아카이브에는 @아이디가 들어 있지 않아서 숫자 계정 ID로 보여요. 줄을 누르면 해당 프로필이 열려요.</p>
+        <p>탈퇴하거나 정지된 계정도 팔로워에서 빠지기 때문에 "나만 팔로우"에 섞일 수 있어요.</p>
+        <p>아카이브를 만든 시점 기준이에요. 그 뒤의 변화는 반영되지 않아요.</p>
+      </footer>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
