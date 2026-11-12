@@ -102,6 +102,11 @@ h1 { margin: 0; font-size: clamp(1.75rem, 1.3rem + 2.2vw, 2.25rem); font-weight:
   background: var(--accent-soft); color: var(--fg); font-size: 0.85rem; line-height: 1.5;
   animation: reveal var(--duration-normal) var(--ease-out);
 }
+.step-tips { display: grid; gap: 4px; margin: 8px 0 0; padding: 0; list-style: none; font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
+.step-tips li { position: relative; padding-left: 12px; text-wrap: pretty; }
+.step-tips li::before { content: ""; position: absolute; left: 0; top: 0.7em; width: 4px; height: 4px; border-radius: 50%; background: var(--line); }
+.step-tips b { color: var(--fg); font-weight: 500; }
+.step-tips .nb { white-space: nowrap; }
 .step-upload .drop { margin-top: 12px; }
 
 .cta {
