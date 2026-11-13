@@ -1,11 +1,13 @@
 /** "홈 화면에 추가" card in the wait step: native install prompt where supported, written steps everywhere else. */
 
+import { isIos, isIosChrome } from './platform';
+
 interface BeforeInstallPromptEvent extends Event {
   prompt(): Promise<void>;
   readonly userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
 }
 
-type InstallMode = 'prompt' | 'ios' | 'inapp' | 'manual';
+type InstallMode = 'prompt' | 'ios' | 'iosChrome' | 'inapp' | 'manual';
 
 const IN_APP_PATTERN = /KAKAOTALK|Instagram|FBAN|FBAV|Line\/|NAVER\(inapp|Twitter|DaumApps|everytimeApp/i;
 
@@ -13,6 +15,11 @@ const GUIDES: Readonly<Record<Exclude<InstallMode, 'prompt'>, readonly string[]>
   ios: [
     'Safari 주소창 옆의 공유 버튼(네모 위로 화살표)을 눌러요. 안 보이면 ⋯ 를 먼저 눌러요.',
     '메뉴를 내려서 "홈 화면에 추가"를 눌러요.',
+    '오른쪽 위 "추가"를 누르면 홈 화면에 아이콘이 생겨요.',
+  ],
+  iosChrome: [
+    'Chrome 주소창 오른쪽의 공유 버튼(네모 위로 화살표)을 눌러요.',
+    '목록을 아래로 내려서 "홈 화면에 추가"를 눌러요.',
     '오른쪽 위 "추가"를 누르면 홈 화면에 아이콘이 생겨요.',
   ],
   inapp: [
@@ -31,10 +38,10 @@ function isStandalone(): boolean {
   return iosStandalone || window.matchMedia('(display-mode: standalone)').matches;
 }
 
-function isIos(): boolean {
-  const ua = navigator.userAgent;
-  const iPadOs = /Macintosh/.test(ua) && navigator.maxTouchPoints > 1;
-  return /iPhone|iPad|iPod/.test(ua) || iPadOs;
+function detectMode(): InstallMode {
+  if (isInApp()) return 'inapp';
+  if (!isIos()) return 'manual';
+  return isIosChrome() ? 'iosChrome' : 'ios';
 }
 
 const isInApp = (): boolean => IN_APP_PATTERN.test(navigator.userAgent);
@@ -47,7 +54,7 @@ export function setupInstall(): void {
 
   let deferred: BeforeInstallPromptEvent | null = null;
   // 'manual' until the browser offers a native prompt, so the card never silently disappears.
-  let mode: InstallMode = isInApp() ? 'inapp' : isIos() ? 'ios' : 'manual';
+  let mode: InstallMode = detectMode();
 
   const hide = () => {
     section.hidden = true;

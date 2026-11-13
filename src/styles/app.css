@@ -323,7 +323,7 @@ h1 { margin: 0; font-size: clamp(1.75rem, 1.3rem + 2.2vw, 2.25rem); font-weight:
 
 /* ---------- Install ---------- */
 .install {
-  display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px;
+  display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 10px 12px;
   margin-top: 12px; padding: 12px;
   background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--radius-md);
 }
@@ -331,6 +331,12 @@ h1 { margin: 0; font-size: clamp(1.75rem, 1.3rem + 2.2vw, 2.25rem); font-weight:
 .install-text { min-width: 0; }
 .install-title { margin: 0; font-size: 0.92rem; font-weight: 700; line-height: 1.3; }
 .install-sub { margin: 2px 0 0; font-size: 0.8rem; color: var(--muted); line-height: 1.4; }
+/* Narrow: the button sits on its own row so the text keeps the full width beside the icon. */
+.install > .ghost { grid-column: 1 / -1; width: 100%; min-height: 44px; }
+@media (min-width: 560px) {
+  .install { grid-template-columns: auto minmax(0, 1fr) auto; }
+  .install > .ghost { grid-column: auto; width: auto; min-height: 40px; }
+}
 .install-guide {
   grid-column: 1 / -1; margin: 2px 0 0; padding: 12px 14px 12px 32px;
   background: var(--surface); border-radius: var(--radius-sm);
