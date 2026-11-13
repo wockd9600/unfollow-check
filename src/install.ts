@@ -1,5 +1,7 @@
-/** "홈 화면에 추가" card in the wait step: native install prompt where supported, written steps everywhere else. */
+/** "Add to Home Screen" card in the wait step: native install prompt where supported, written steps everywhere else. */
 
+import { t } from './i18n';
+import type { AppKey } from './i18n/ko';
 import { isIos, isIosChrome } from './platform';
 
 interface BeforeInstallPromptEvent extends Event {
@@ -32,26 +34,11 @@ function buildStepContent(text: string): (string | SVGSVGElement)[] {
   return text.split(SHARE_TOKEN).flatMap((part, i) => (i === 0 ? [part] : [buildShareIcon(), part]));
 }
 
-const GUIDES: Readonly<Record<Exclude<InstallMode, 'prompt'>, readonly string[]>> = {
-  ios: [
-    'Safari 주소창 옆의 {share} 공유 버튼을 눌러요. 안 보이면 ⋯ 를 먼저 눌러요.',
-    '메뉴를 내려서 "홈 화면에 추가"를 눌러요.',
-    '오른쪽 위 "추가"를 누르면 홈 화면에 아이콘이 생겨요.',
-  ],
-  iosChrome: [
-    'Chrome 주소창 오른쪽의 {share} 공유 버튼을 눌러요.',
-    '목록을 아래로 내려서 "홈 화면에 추가"를 눌러요.',
-    '오른쪽 위 "추가"를 누르면 홈 화면에 아이콘이 생겨요.',
-  ],
-  inapp: [
-    '카카오톡·인스타그램 같은 앱 안의 브라우저에서는 홈 화면에 추가할 수 없어요.',
-    '오른쪽 위나 아래의 ⋯ 메뉴에서 "다른 브라우저로 열기"(아이폰은 "Safari로 열기")를 눌러요.',
-    '열린 Safari나 Chrome에서 이 버튼을 다시 눌러 주세요.',
-  ],
-  manual: [
-    '브라우저 메뉴(⋮ 또는 ⋯)에서 "홈 화면에 추가"나 "앱 설치"를 눌러요.',
-    '메뉴에 없다면 이 페이지를 즐겨찾기(북마크)에 추가해 두세요.',
-  ],
+const GUIDES: Readonly<Record<Exclude<InstallMode, 'prompt'>, readonly AppKey[]>> = {
+  ios: ['guide.ios.1', 'guide.ios.2', 'guide.ios.3'],
+  iosChrome: ['guide.iosChrome.1', 'guide.iosChrome.2', 'guide.iosChrome.3'],
+  inapp: ['guide.inapp.1', 'guide.inapp.2', 'guide.inapp.3'],
+  manual: ['guide.manual.1', 'guide.manual.2'],
 };
 
 function isStandalone(): boolean {
@@ -83,14 +70,14 @@ export function setupInstall(): void {
   const closeGuide = () => {
     guide.hidden = true;
     button.setAttribute('aria-expanded', 'false');
-    button.textContent = '추가하기';
+    button.textContent = t('install.add');
   };
 
-  const renderGuide = (steps: readonly string[]) => {
+  const renderGuide = (steps: readonly AppKey[]) => {
     guide.replaceChildren(
-      ...steps.map((text) => {
+      ...steps.map((key) => {
         const li = document.createElement('li');
-        li.append(...buildStepContent(text));
+        li.append(...buildStepContent(t(key)));
         return li;
       }),
     );
@@ -126,7 +113,7 @@ export function setupInstall(): void {
     renderGuide(GUIDES[mode]);
     guide.hidden = false;
     button.setAttribute('aria-expanded', 'true');
-    button.textContent = '닫기';
+    button.textContent = t('install.close');
   });
 
   section.hidden = false;

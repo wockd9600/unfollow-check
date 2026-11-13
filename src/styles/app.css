@@ -15,6 +15,12 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* keep-all suits Korean spacing but leaves Japanese (no spaces) unable to wrap. */
+:lang(ja) body { word-break: normal; line-break: strict; }
+@supports (word-break: auto-phrase) {
+  :lang(ja) body { word-break: auto-phrase; }
+}
+
 button, input, summary, a { touch-action: manipulation; }
 button { font: inherit; color: inherit; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
@@ -39,10 +45,26 @@ button { font: inherit; color: inherit; }
 
 /* ---------- Masthead ---------- */
 .masthead { display: flex; flex-direction: column; gap: 6px; padding: 4px 2px 6px; }
+.masthead-top { display: flex; align-items: center; justify-content: space-between; gap: 8px 12px; flex-wrap: wrap; }
 .eyebrow {
   margin: 0; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.08em;
   color: var(--accent);
 }
+
+/* Language switcher: a quiet segmented control, the current page filled in. */
+.lang {
+  display: inline-flex; gap: 2px; padding: 2px;
+  border: 1px solid var(--line); border-radius: 999px; background: var(--surface);
+}
+.lang a {
+  display: inline-flex; align-items: center; min-height: 30px; padding: 0 10px;
+  border-radius: 999px; font-size: 0.75rem; font-weight: 500; line-height: 1;
+  color: var(--muted); text-decoration: none; white-space: nowrap;
+  transition: background-color var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out);
+}
+.lang a:hover { color: var(--fg); background: var(--surface-2); }
+.lang a:active { transform: scale(0.96); }
+.lang a[aria-current="page"] { background: var(--accent-soft); color: var(--accent); font-weight: 700; }
 h1 { margin: 0; font-size: clamp(1.75rem, 1.3rem + 2.2vw, 2.25rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; }
 .title-sub {
   display: inline-block; margin-left: 0.15em;

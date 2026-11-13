@@ -28,6 +28,11 @@
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* Japanese pages: kana/kanji need a JP face; Korean glyph shapes for shared kanji read as foreign. */
+:root:lang(ja) {
+  --font-body: "IBM Plex Sans JP", system-ui, -apple-system, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+}
+
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;

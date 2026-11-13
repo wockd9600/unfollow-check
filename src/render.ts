@@ -1,10 +1,12 @@
-import { GROUP_LABELS, type GroupKey } from './classify';
+import type { GroupKey } from './classify';
+import { fmt, t } from './i18n';
 
 const PAGE_SIZE = 200;
 const COPY_FEEDBACK_MS = 1600;
 const PROFILE_URL = 'https://x.com/i/user/';
 
-const fmt = (n: number) => n.toLocaleString('ko-KR');
+const groupTitle = (key: GroupKey): string => t(`group.${key}.title`);
+const groupHint = (key: GroupKey): string => t(`group.${key}.hint`);
 
 function el<K extends keyof HTMLElementTagNameMap>(tag: K, className?: string, text?: string): HTMLElementTagNameMap[K] {
   const node = document.createElement(tag);
@@ -19,8 +21,8 @@ function row(id: string): HTMLLIElement {
   a.href = PROFILE_URL + encodeURIComponent(id);
   a.target = '_blank';
   a.rel = 'noopener noreferrer';
-  a.setAttribute('aria-label', `계정 ${id} 프로필 열기`);
-  a.append(el('span', 'row-id', id), el('span', 'row-go', '프로필 ↗'));
+  a.setAttribute('aria-label', t('row.open', { id }));
+  a.append(el('span', 'row-id', id), el('span', 'row-go', t('row.go')));
   li.append(a);
   return li;
 }
@@ -36,7 +38,6 @@ async function copyText(text: string): Promise<boolean> {
 
 /** One collapsible result card. Owns its own open state and pagination. */
 export function buildGroup(key: GroupKey, ids: readonly string[]): HTMLElement {
-  const { title, hint } = GROUP_LABELS[key];
   const section = el('section', `group group-${key}`);
   section.dataset.key = key;
 
@@ -49,7 +50,7 @@ export function buildGroup(key: GroupKey, ids: readonly string[]): HTMLElement {
 
   const count = el('span', 'group-count', fmt(ids.length));
   const text = el('span', 'group-text');
-  text.append(el('span', 'group-title', title), el('span', 'group-hint', ids.length ? hint : '해당하는 계정이 없어요'));
+  text.append(el('span', 'group-title', groupTitle(key)), el('span', 'group-hint', ids.length ? groupHint(key) : t('group.empty')));
   const chevron = el('span', 'group-chevron');
   chevron.setAttribute('aria-hidden', 'true');
   head.append(count, text, chevron);
@@ -59,8 +60,8 @@ export function buildGroup(key: GroupKey, ids: readonly string[]): HTMLElement {
   panel.hidden = true;
 
   const toolbar = el('div', 'panel-bar');
-  toolbar.append(el('span', 'panel-note', '누르면 프로필이 열려요'));
-  const copy = el('button', 'ghost small', 'ID 전체 복사');
+  toolbar.append(el('span', 'panel-note', t('group.tapHint')));
+  const copy = el('button', 'ghost small', t('group.copyAll'));
   copy.type = 'button';
   toolbar.append(copy);
 
@@ -78,7 +79,7 @@ export function buildGroup(key: GroupKey, ids: readonly string[]): HTMLElement {
     shown = next;
     const rest = ids.length - shown;
     more.hidden = rest <= 0;
-    more.textContent = `${fmt(Math.min(rest, PAGE_SIZE))}개 더 보기 · 남은 ${fmt(rest)}개`;
+    more.textContent = t('group.more', { n: fmt(Math.min(rest, PAGE_SIZE)), rest: fmt(rest) });
   };
 
   head.addEventListener('click', () => {
@@ -93,8 +94,8 @@ export function buildGroup(key: GroupKey, ids: readonly string[]): HTMLElement {
 
   copy.addEventListener('click', async () => {
     const ok = await copyText(ids.join('\n'));
-    copy.textContent = ok ? `${fmt(ids.length)}개 복사됨` : '복사가 막혀 있어요';
-    window.setTimeout(() => (copy.textContent = 'ID 전체 복사'), COPY_FEEDBACK_MS);
+    copy.textContent = ok ? t('group.copied', { n: fmt(ids.length) }) : t('group.copyBlocked');
+    window.setTimeout(() => (copy.textContent = t('group.copyAll')), COPY_FEEDBACK_MS);
   });
 
   section.append(head, panel);
@@ -108,7 +109,7 @@ export function buildChip(key: GroupKey, checked: boolean, count: number, onChan
   input.checked = checked;
   input.value = key;
   input.addEventListener('change', () => onChange(key, input.checked));
-  label.append(input, el('span', 'chip-text', GROUP_LABELS[key].title), el('span', 'chip-count', fmt(count)));
+  label.append(input, el('span', 'chip-text', groupTitle(key)), el('span', 'chip-count', fmt(count)));
   return label;
 }
 

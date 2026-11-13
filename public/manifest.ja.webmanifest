@@ -1,0 +1,30 @@
+{
+  "name": "相互チェック",
+  "short_name": "相互チェック",
+  "description": "Xのアーカイブから、リムーブした人や片思いのアカウントを確認できます。ファイルは端末の外に出ません。",
+  "lang": "ja",
+  "id": "/",
+  "start_url": "/ja/",
+  "scope": "/",
+  "display": "standalone",
+  "theme_color": "#0f6b6f",
+  "background_color": "#f3f5f6",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

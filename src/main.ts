@@ -6,6 +6,8 @@ import { loadVisible, saveVisible } from './prefs';
 import { buildChip, buildGroup, fmt } from './render';
 import { setupInstall } from './install';
 import { setupOnboarding } from './onboarding';
+import { t } from './i18n';
+import { redirectToPreferredLocale, setupLanguageSwitcher } from './i18n/preference';
 
 interface State {
   readonly groups: Groups | null;
@@ -53,7 +55,7 @@ function showResult(archive: Archive): void {
   const groups = classify(archive);
   state = { ...state, groups };
 
-  ui.loadedStats.textContent = `팔로워 ${fmt(archive.followers.length)} · 팔로잉 ${fmt(archive.following.length)}`;
+  ui.loadedStats.textContent = t('result.stats', { followers: fmt(archive.followers.length), following: fmt(archive.following.length) });
   ui.groups.replaceChildren(...GROUP_KEYS.map((k) => buildGroup(k, groups[k])));
   ui.chips.replaceChildren(...GROUP_KEYS.map((k) => buildChip(k, state.visible.includes(k), groups[k].length, setVisible)));
   applyVisibility();
@@ -75,16 +77,16 @@ async function handleFiles(files: readonly File[]): Promise<void> {
   ui.error.hidden = true;
   ui.drop.classList.add('busy');
   ui.drop.setAttribute('aria-busy', 'true');
-  ui.dropTitle.textContent = '읽는 중…';
+  ui.dropTitle.textContent = t('drop.reading');
   try {
     showResult(await readArchive(files));
   } catch (e) {
     console.error('[unfollow-check] failed to read archive', e);
-    showError(e instanceof ArchiveError ? e.message : '파일을 읽는 중 문제가 생겼어요. 다시 시도해 주세요.');
+    showError(t(e instanceof ArchiveError ? `error.${e.code}` : 'error.generic'));
   } finally {
     ui.drop.classList.remove('busy');
     ui.drop.removeAttribute('aria-busy');
-    ui.dropTitle.textContent = 'zip 파일 선택';
+    ui.dropTitle.textContent = t('drop.title');
   }
 }
 
@@ -119,10 +121,14 @@ ui.drop.addEventListener('drop', (e) => {
   void handleFiles([...(e.dataTransfer?.files ?? [])]);
 });
 
-setupInstall();
-setupOnboarding();
+// Visitors landing on / with a Japanese or other-language device move to their page first.
+if (!redirectToPreferredLocale()) {
+  setupLanguageSwitcher();
+  setupInstall();
+  setupOnboarding();
 
-// Dev only: floating bar to jump straight to the result screen (`?demo` too).
-if (import.meta.env.DEV) {
-  void import('./dev').then(({ setupDev }) => setupDev(showResult));
+  // Dev only: floating bar to jump straight to the result screen (`?demo` too).
+  if (import.meta.env.DEV) {
+    void import('./dev').then(({ setupDev }) => setupDev(showResult));
+  }
 }

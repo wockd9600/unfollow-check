@@ -1,0 +1,30 @@
+{
+  "name": "Unfollow Check",
+  "short_name": "Unfollow Check",
+  "description": "See who unfollowed you and who doesn’t follow you back from your X archive. Your file never leaves your device.",
+  "lang": "en",
+  "id": "/",
+  "start_url": "/en/",
+  "scope": "/",
+  "display": "standalone",
+  "theme_color": "#0f6b6f",
+  "background_color": "#f3f5f6",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

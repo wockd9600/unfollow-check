@@ -1,124 +1,139 @@
 <!doctype html>
-<html lang="ko">
+<!-- Template for every language page: double-brace slots are filled by vite/locale-pages.ts from src/i18n/*.ts. -->
+<html lang="{{lang}}">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>맞팔체크 · 팔취·언팔한 사람 확인</title>
-    <meta name="description" content="X(트위터) 기록 파일로 나를 팔취·언팔한 사람, 맞팔 안 하는 계정을 찾아요. 파일은 기기 밖으로 나가지 않아요." />
+    <title>{{meta.title}}</title>
+    <meta name="description" content="{{meta.description}}" />
     <meta name="theme-color" content="#f3f5f6" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#11171c" media="(prefers-color-scheme: dark)" />
     <meta name="color-scheme" content="light dark" />
     <meta name="format-detection" content="telephone=no" />
 
+    <link rel="canonical" href="{{url}}" />
+    <link rel="alternate" hreflang="ko" href="https://unfollow-check-x.vercel.app/" />
+    <link rel="alternate" hreflang="en" href="https://unfollow-check-x.vercel.app/en/" />
+    <link rel="alternate" hreflang="ja" href="https://unfollow-check-x.vercel.app/ja/" />
+    <link rel="alternate" hreflang="x-default" href="https://unfollow-check-x.vercel.app/" />
+
+    <link rel="manifest" href="{{manifest}}" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-title" content="맞팔체크" />
+    <meta name="apple-mobile-web-app-title" content="{{meta.appName}}" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+JP:wght@400;500;700&family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" />
   </head>
   <body>
     <main class="app">
       <header class="masthead">
-        <p class="eyebrow">X(트위터) 팔로우 확인</p>
-        <h1>맞팔체크 <span class="title-sub">팔취·언팔한 사람 확인</span></h1>
-        <p class="lede">X에서 내 기록 파일을 받아 넣으면, 나만 팔로우 중인 계정을 찾아 드려요.</p>
+        <div class="masthead-top">
+          <p class="eyebrow">{{eyebrow}}</p>
+          <nav class="lang" aria-label="{{nav.language}}">
+            <a href="/" hreflang="ko" lang="ko" data-locale="ko">한국어</a>
+            <a href="/en/" hreflang="en" lang="en" data-locale="en">English</a>
+            <a href="/ja/" hreflang="ja" lang="ja" data-locale="ja">日本語</a>
+          </nav>
+        </div>
+        <h1>{{title}} <span class="title-sub">{{titleSub}}</span></h1>
+        <p class="lede">{{lede}}</p>
         <div class="privacy">
           <svg aria-hidden="true" viewBox="0 0 16 16" width="18" height="18"><path d="M8 1.5 2.75 3.6v4.1c0 3.2 2.2 5.9 5.25 6.8 3.05-.9 5.25-3.6 5.25-6.8V3.6L8 1.5Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="m5.6 8.1 1.7 1.7 3.2-3.4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <div class="privacy-body">
-            <p class="privacy-title"><span class="nb">로그인도, 비밀번호도</span> <span class="nb">묻지 않아요</span></p>
-            <p class="privacy-note">그래서 X가 직접 만들어 주는 기록 파일이 필요해요. 이 사이트에는 데이터를 받을 서버가 없어서, 파일은 이 브라우저 안에서만 읽고 창을 닫으면 사라져요.</p>
-            <p class="privacy-warn">X 비밀번호를 달라는 사이트는 조심하세요.</p>
+            <p class="privacy-title">{{privacy.title}}</p>
+            <p class="privacy-note">{{privacy.note}}</p>
+            <p class="privacy-warn">{{privacy.warn}}</p>
           </div>
         </div>
       </header>
 
       <section class="upload" id="upload" aria-labelledby="upload-title">
-        <h2 class="visually-hidden" id="upload-title">기록 파일 넣기</h2>
+        <h2 class="visually-hidden" id="upload-title">{{upload.heading}}</h2>
 
         <ol class="steps" id="steps">
           <li class="step step-request" id="step-request">
             <span class="step-num" aria-hidden="true">1</span>
-            <h3 class="step-title">X에 내 기록 파일 요청하기</h3>
-            <p class="step-text">X 앱 <b>설정 및 개인정보</b>에서 아래 순서로 눌러요. 본인 확인을 위해 X가 비밀번호와 인증 코드를 물어봐요.</p>
-            <ol class="shots" tabindex="0" aria-label="기록 파일 요청 화면 순서, 옆으로 넘겨 보기">
+            <h3 class="step-title">{{request.title}}</h3>
+            <p class="step-text">{{request.text}}</p>
+            <ol class="shots" tabindex="0" aria-label="{{request.shotsLabel}}">
               <li class="shot">
                 <figure>
                   <div class="shot-frame">
                     <img src="/guide/step-1/1.png" width="630" height="487" loading="lazy" decoding="async"
-                      alt="X 설정 화면. 맨 위 계좌 메뉴가 빨간 테두리로 표시돼 있어요." />
+                      alt="{{request.shot1Alt}}" />
                     <span class="tap" aria-hidden="true"></span>
                   </div>
-                  <figcaption><b>계좌</b></figcaption>
+                  <figcaption><b>{{request.shot1}}</b></figcaption>
                 </figure>
               </li>
               <li class="shot">
                 <figure>
                   <div class="shot-frame">
                     <img src="/guide/step-1/2.png" width="630" height="493" loading="lazy" decoding="async"
-                      alt="내 계정 화면. 다운로드 및 보관 메뉴가 빨간 테두리로 표시돼 있어요." />
+                      alt="{{request.shot2Alt}}" />
                     <span class="tap" aria-hidden="true"></span>
                   </div>
-                  <figcaption><b>다운로드 및 보관</b></figcaption>
+                  <figcaption><b>{{request.shot2}}</b></figcaption>
                 </figure>
               </li>
               <li class="shot">
                 <figure>
                   <div class="shot-frame">
                     <img src="/guide/step-1/3.png" width="630" height="482" loading="lazy" decoding="async"
-                      alt="다운로드 및 보관 화면. 기록 파일 요청하기 버튼이 빨간 테두리로 표시돼 있어요." />
+                      alt="{{request.shot3Alt}}" />
                     <span class="tap" aria-hidden="true"></span>
                   </div>
-                  <figcaption><b>기록 파일 요청하기</b></figcaption>
+                  <figcaption><b>{{request.shot3}}</b></figcaption>
                 </figure>
               </li>
             </ol>
             <a class="cta" id="request-link" href="https://x.com/settings/account" target="_blank" rel="noopener noreferrer">
-              X 앱에서 열기
+              {{request.cta}}
               <svg aria-hidden="true" viewBox="0 0 16 16" width="15" height="15"><path d="M6.5 3.5h-3v9h9v-3M9.5 2.5h4v4M13.5 2.5 7.5 8.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
-            <a class="step-fallback" id="request-fallback" href="https://x.com/settings/account" target="_blank" rel="noopener noreferrer" hidden>X 앱이 안 열리면 웹에서 열기</a>
-            <p class="step-hint">위 두 번째 화면(다운로드 및 보관)으로 바로 가요. X 앱이 없으면 웹으로 열려요.</p>
+            <a class="step-fallback" id="request-fallback" href="https://x.com/settings/account" target="_blank" rel="noopener noreferrer" hidden>{{request.fallback}}</a>
+            <p class="step-hint">{{request.hint}}</p>
           </li>
           <li class="step step-wait" id="step-wait">
             <span class="step-num" aria-hidden="true">2</span>
-            <h3 class="step-title">하루쯤 기다리기</h3>
-            <p class="step-text">파일이 준비되면 X 알림과 이메일로 알려줘요. 알림을 눌러 zip을 내려받은 뒤 이 페이지로 돌아오세요.</p>
-            <p class="step-note" id="request-note" role="status" hidden>요청했다면 이제 기다리기만 하면 돼요. 홈 화면에 추가해 두면 다시 찾기 쉬워요.</p>
+            <h3 class="step-title">{{wait.title}}</h3>
+            <p class="step-text">{{wait.text}}</p>
+            <p class="step-note" id="request-note" role="status" hidden>{{wait.noteInstall}}</p>
             <div class="install" id="install" hidden>
               <img class="install-icon" src="/icon-192.png" alt="" width="40" height="40" />
               <div class="install-text">
-                <h4 class="install-title">홈 화면에 추가</h4>
-                <p class="install-sub" id="install-sub">아이콘을 눌러 앱처럼 바로 열 수 있어요.</p>
+                <h4 class="install-title">{{install.title}}</h4>
+                <p class="install-sub" id="install-sub">{{install.sub}}</p>
               </div>
-              <button type="button" class="ghost" id="install-btn" aria-controls="install-guide" aria-expanded="false">추가하기</button>
+              <button type="button" class="ghost" id="install-btn" aria-controls="install-guide" aria-expanded="false">{{install.add}}</button>
               <ol class="install-guide" id="install-guide" hidden></ol>
             </div>
             <ul class="step-tips">
-              <li>내려받을 때 X가 로그인과 본인 확인을 한 번 더 요청할 수 있어요.</li>
-              <li>사진·영상까지 들어 있어 용량이 클 수 있어요. <span class="nb">Wi-Fi에서</span> 받는 걸 권해요.</li>
-              <li>받은 zip은 아이폰은 <b>파일</b> 앱의 <b>다운로드</b>, 안드로이드는 <b>내 파일</b>의 <b>Download</b> 폴더에 있어요.</li>
+              <li>{{wait.tip1}}</li>
+              <li>{{wait.tip2}}</li>
+              <li>{{wait.tip3}}</li>
             </ul>
           </li>
           <li class="step step-upload" id="step-upload">
             <span class="step-num" aria-hidden="true">3</span>
-            <h3 class="step-title">받은 zip 넣기</h3>
+            <h3 class="step-title">{{upload.title}}</h3>
             <label class="drop" id="drop">
               <input type="file" id="file" accept=".zip,.js,application/zip" multiple />
               <span class="drop-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" width="26" height="26"><path d="M12 15.5V4.5m0 0-4 4m4-4 4 4M5 14.5v3a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </span>
-              <span class="drop-title" id="drop-title">zip 파일 선택</span>
-              <span class="drop-sub" id="drop-sub">압축을 풀었다면 <span class="nb">follower.js · following.js</span> 두 파일</span>
+              <span class="drop-title" id="drop-title">{{drop.title}}</span>
+              <span class="drop-sub" id="drop-sub">{{drop.sub}}</span>
             </label>
             <p class="error" id="error" role="alert" hidden></p>
             <p class="safe-note">
               <svg aria-hidden="true" viewBox="0 0 16 16" width="14" height="14"><rect x="3" y="7" width="10" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
-              파일은 이 브라우저 안에서만 읽어요
+              {{upload.safe}}
             </p>
           </li>
         </ol>
@@ -126,20 +141,20 @@
 
       <section class="loaded" id="loaded" hidden aria-live="polite">
         <p class="loaded-stats" id="loaded-stats"></p>
-        <button type="button" class="ghost" id="reset">다른 파일</button>
+        <button type="button" class="ghost" id="reset">{{result.reset}}</button>
       </section>
 
-      <section class="groups" id="groups" hidden aria-label="결과"></section>
+      <section class="groups" id="groups" hidden aria-label="{{result.label}}"></section>
 
       <fieldset class="options" id="options" hidden>
-        <legend>표시할 목록</legend>
+        <legend>{{result.options}}</legend>
         <div class="chips" id="chips"></div>
       </fieldset>
 
       <footer class="notes">
-        <p>기록 파일에는 @아이디가 들어 있지 않아서 숫자 계정 ID로 보여요. 줄을 누르면 해당 프로필이 열려요.</p>
-        <p>탈퇴하거나 정지된 계정도 팔로워에서 빠지기 때문에 "나만 팔로우"에 섞일 수 있어요.</p>
-        <p>기록 파일을 만든 시점 기준이에요. 그 뒤의 변화는 반영되지 않아요.</p>
+        <p>{{notes.ids}}</p>
+        <p>{{notes.suspended}}</p>
+        <p>{{notes.snapshot}}</p>
       </footer>
     </main>
     <script type="module" src="/src/main.ts"></script>
