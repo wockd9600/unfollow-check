@@ -11,14 +11,35 @@ type InstallMode = 'prompt' | 'ios' | 'iosChrome' | 'inapp' | 'manual';
 
 const IN_APP_PATTERN = /KAKAOTALK|Instagram|FBAN|FBAV|Line\/|NAVER\(inapp|Twitter|DaumApps|everytimeApp/i;
 
+/** Placeholder in guide text that is replaced with the iOS share icon. */
+const SHARE_TOKEN = '{share}';
+const SVG_NS = 'http://www.w3.org/2000/svg';
+const SHARE_ICON_PATH = 'M12 15V3.5m0 0-4 4m4-4 4 4M8 10.5H6.5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2H16';
+
+function buildShareIcon(): SVGSVGElement {
+  const svg = document.createElementNS(SVG_NS, 'svg');
+  svg.setAttribute('class', 'guide-icon');
+  svg.setAttribute('viewBox', '0 0 24 24');
+  svg.setAttribute('aria-hidden', 'true');
+  const path = document.createElementNS(SVG_NS, 'path');
+  path.setAttribute('d', SHARE_ICON_PATH);
+  svg.append(path);
+  return svg;
+}
+
+/** Splits a guide step on the share token, putting the icon where the token was. */
+function buildStepContent(text: string): (string | SVGSVGElement)[] {
+  return text.split(SHARE_TOKEN).flatMap((part, i) => (i === 0 ? [part] : [buildShareIcon(), part]));
+}
+
 const GUIDES: Readonly<Record<Exclude<InstallMode, 'prompt'>, readonly string[]>> = {
   ios: [
-    'Safari 주소창 옆의 공유 버튼(네모 위로 화살표)을 눌러요. 안 보이면 ⋯ 를 먼저 눌러요.',
+    'Safari 주소창 옆의 {share} 공유 버튼을 눌러요. 안 보이면 ⋯ 를 먼저 눌러요.',
     '메뉴를 내려서 "홈 화면에 추가"를 눌러요.',
     '오른쪽 위 "추가"를 누르면 홈 화면에 아이콘이 생겨요.',
   ],
   iosChrome: [
-    'Chrome 주소창 오른쪽의 공유 버튼(네모 위로 화살표)을 눌러요.',
+    'Chrome 주소창 오른쪽의 {share} 공유 버튼을 눌러요.',
     '목록을 아래로 내려서 "홈 화면에 추가"를 눌러요.',
     '오른쪽 위 "추가"를 누르면 홈 화면에 아이콘이 생겨요.',
   ],
@@ -69,7 +90,7 @@ export function setupInstall(): void {
     guide.replaceChildren(
       ...steps.map((text) => {
         const li = document.createElement('li');
-        li.textContent = text;
+        li.append(...buildStepContent(text));
         return li;
       }),
     );

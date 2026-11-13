@@ -119,6 +119,13 @@ h1 { margin: 0; font-size: clamp(1.75rem, 1.3rem + 2.2vw, 2.25rem); font-weight:
 }
 .cta:hover { background: color-mix(in srgb, var(--accent) 88%, var(--fg)); }
 .cta:active { transform: scale(0.98); background: color-mix(in srgb, var(--accent) 80%, var(--fg)); }
+.step-fallback {
+  display: inline-flex; align-items: center; min-height: 44px; margin-top: 4px;
+  color: var(--accent); font-size: 0.88rem; font-weight: 500;
+  text-decoration: underline; text-underline-offset: 3px;
+  animation: reveal var(--duration-normal) var(--ease-out);
+}
+.step-fallback[hidden] { display: none; }
 .step-hint { margin: 6px 0 0; font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
 .safe-note {
   display: flex; align-items: center; justify-content: center; gap: 6px;
@@ -336,6 +343,10 @@ h1 { margin: 0; font-size: clamp(1.75rem, 1.3rem + 2.2vw, 2.25rem); font-weight:
 @media (min-width: 560px) {
   .install { grid-template-columns: auto minmax(0, 1fr) auto; }
   .install > .ghost { grid-column: auto; width: auto; min-height: 40px; }
+}
+.guide-icon {
+  display: inline-block; width: 18px; height: 18px; vertical-align: -4px;
+  fill: none; stroke: var(--accent); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
 }
 .install-guide {
   grid-column: 1 / -1; margin: 2px 0 0; padding: 12px 14px 12px 32px;

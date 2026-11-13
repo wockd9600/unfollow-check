@@ -7,23 +7,13 @@ import { isIosChrome } from './platform';
 
 /**
  * Chrome on iOS does not hand https links to apps, so the X app is opened through its
- * own URL scheme there. Nothing happens when the app is missing, hence the timed web fallback.
+ * own URL scheme there. Whether the app actually opened cannot be detected reliably
+ * (a timed redirect fired even after a successful launch), so a web link is revealed instead.
  */
 const APP_SCHEME_URL = 'twitter://settings/account';
-const APP_FALLBACK_DELAY_MS = 1500;
 
-function openInApp(webUrl: string): void {
-  let hasLeftPage = false;
-  const onVisibility = () => {
-    if (document.hidden) hasLeftPage = true;
-  };
-  document.addEventListener('visibilitychange', onVisibility);
-  window.setTimeout(() => {
-    document.removeEventListener('visibilitychange', onVisibility);
-    // Still here and never backgrounded: the app did not open, so use the web instead.
-    if (!hasLeftPage) window.location.assign(webUrl);
-  }, APP_FALLBACK_DELAY_MS);
-
+function openInApp(fallback: HTMLElement | null): void {
+  if (fallback) fallback.hidden = false;
   try {
     window.location.href = APP_SCHEME_URL;
   } catch (err) {
@@ -42,10 +32,11 @@ export function setupOnboarding(): void {
     return;
   }
 
-  if (isIosChrome() && requestLink instanceof HTMLAnchorElement) {
+  if (isIosChrome()) {
+    const fallback = document.getElementById('request-fallback');
     requestLink.addEventListener('click', (e) => {
       e.preventDefault();
-      openInApp(requestLink.href);
+      openInApp(fallback);
     });
   }
 
