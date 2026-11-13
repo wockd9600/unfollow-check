@@ -1,11 +1,11 @@
-/** "홈 화면에 추가" prompt: native install prompt where supported, written steps on iOS and in-app browsers. */
+/** "홈 화면에 추가" card in the wait step: native install prompt where supported, written steps everywhere else. */
 
 interface BeforeInstallPromptEvent extends Event {
   prompt(): Promise<void>;
   readonly userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
 }
 
-type InstallMode = 'prompt' | 'ios' | 'inapp';
+type InstallMode = 'prompt' | 'ios' | 'inapp' | 'manual';
 
 const IN_APP_PATTERN = /KAKAOTALK|Instagram|FBAN|FBAV|Line\/|NAVER\(inapp|Twitter|DaumApps|everytimeApp/i;
 
@@ -19,6 +19,10 @@ const GUIDES: Readonly<Record<Exclude<InstallMode, 'prompt'>, readonly string[]>
     '카카오톡·인스타그램 같은 앱 안의 브라우저에서는 홈 화면에 추가할 수 없어요.',
     '오른쪽 위나 아래의 ⋯ 메뉴에서 "다른 브라우저로 열기"(아이폰은 "Safari로 열기")를 눌러요.',
     '열린 Safari나 Chrome에서 이 버튼을 다시 눌러 주세요.',
+  ],
+  manual: [
+    '브라우저 메뉴(⋮ 또는 ⋯)에서 "홈 화면에 추가"나 "앱 설치"를 눌러요.',
+    '메뉴에 없다면 이 페이지를 즐겨찾기(북마크)에 추가해 두세요.',
   ],
 };
 
@@ -42,14 +46,16 @@ export function setupInstall(): void {
   if (!section || !button || !guide || isStandalone()) return;
 
   let deferred: BeforeInstallPromptEvent | null = null;
-  let mode: InstallMode | null = isInApp() ? 'inapp' : isIos() ? 'ios' : null;
+  // 'manual' until the browser offers a native prompt, so the card never silently disappears.
+  let mode: InstallMode = isInApp() ? 'inapp' : isIos() ? 'ios' : 'manual';
 
-  const show = () => {
-    section.hidden = mode === null;
-  };
   const hide = () => {
-    mode = null;
     section.hidden = true;
+  };
+  const closeGuide = () => {
+    guide.hidden = true;
+    button.setAttribute('aria-expanded', 'false');
+    button.textContent = '추가하기';
   };
 
   const renderGuide = (steps: readonly string[]) => {
@@ -65,8 +71,9 @@ export function setupInstall(): void {
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferred = e as BeforeInstallPromptEvent;
-    if (mode !== 'inapp') mode = 'prompt';
-    show();
+    if (mode === 'inapp') return;
+    mode = 'prompt';
+    closeGuide();
   });
   window.addEventListener('appinstalled', hide);
 
@@ -83,14 +90,16 @@ export function setupInstall(): void {
       }
       return;
     }
-    if (mode === 'ios' || mode === 'inapp') {
-      const open = guide.hidden;
-      if (open) renderGuide(GUIDES[mode]);
-      guide.hidden = !open;
-      button.setAttribute('aria-expanded', String(open));
-      button.textContent = open ? '닫기' : '추가하기';
+    if (mode === 'prompt') mode = 'manual';
+    if (!guide.hidden) {
+      closeGuide();
+      return;
     }
+    renderGuide(GUIDES[mode]);
+    guide.hidden = false;
+    button.setAttribute('aria-expanded', 'true');
+    button.textContent = '닫기';
   });
 
-  show();
+  section.hidden = false;
 }

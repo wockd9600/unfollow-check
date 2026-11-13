@@ -87,11 +87,11 @@
                 </figure>
               </li>
             </ol>
-            <a class="cta" id="request-link" href="https://x.com/settings/download_your_data" target="_blank" rel="noopener noreferrer">
-              웹에서 바로 열기
+            <a class="cta" id="request-link" href="https://x.com/settings/account" target="_blank" rel="noopener noreferrer">
+              X 앱에서 열기
               <svg aria-hidden="true" viewBox="0 0 16 16" width="15" height="15"><path d="M6.5 3.5h-3v9h9v-3M9.5 2.5h4v4M13.5 2.5 7.5 8.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
-            <p class="step-hint">위 세 번째 화면(기록 파일 요청하기)으로 바로 가요. 웹에서는 X 로그인이 필요할 수 있어요.</p>
+            <p class="step-hint">위 두 번째 화면(다운로드 및 보관)으로 바로 가요. X 앱이 없으면 웹으로 열려요.</p>
           </li>
           <li class="step step-wait" id="step-wait">
             <span class="step-num" aria-hidden="true">2</span>
@@ -103,6 +103,15 @@
               <li>받은 zip은 아이폰은 <b>파일</b> 앱의 <b>다운로드</b>, 안드로이드는 <b>내 파일</b>의 <b>Download</b> 폴더에 있어요.</li>
             </ul>
             <p class="step-note" id="request-note" role="status" hidden>요청했다면 이제 기다리기만 하면 돼요. 홈 화면에 추가해 두면 다시 찾기 쉬워요.</p>
+            <div class="install" id="install" hidden>
+              <img class="install-icon" src="/icon-192.png" alt="" width="40" height="40" />
+              <div class="install-text">
+                <h4 class="install-title">홈 화면에 추가</h4>
+                <p class="install-sub" id="install-sub">아이콘을 눌러 앱처럼 바로 열 수 있어요.</p>
+              </div>
+              <button type="button" class="ghost" id="install-btn" aria-controls="install-guide" aria-expanded="false">추가하기</button>
+              <ol class="install-guide" id="install-guide" hidden></ol>
+            </div>
           </li>
           <li class="step step-upload" id="step-upload">
             <span class="step-num" aria-hidden="true">3</span>
@@ -135,16 +144,6 @@
         <legend>표시할 목록</legend>
         <div class="chips" id="chips"></div>
       </fieldset>
-
-      <section class="install" id="install" aria-labelledby="install-title" hidden>
-        <img class="install-icon" src="/icon-192.png" alt="" width="44" height="44" />
-        <div class="install-text">
-          <h2 class="install-title" id="install-title">홈 화면에 추가</h2>
-          <p class="install-sub" id="install-sub">아이콘을 눌러 앱처럼 바로 열 수 있어요.</p>
-        </div>
-        <button type="button" class="ghost" id="install-btn" aria-controls="install-guide" aria-expanded="false">추가하기</button>
-        <ol class="install-guide" id="install-guide" hidden></ol>
-      </section>
 
       <footer class="notes">
         <p>기록 파일에는 @아이디가 들어 있지 않아서 숫자 계정 ID로 보여요. 줄을 누르면 해당 프로필이 열려요.</p>

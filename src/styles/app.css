@@ -110,15 +110,15 @@ h1 { margin: 0; font-size: clamp(1.75rem, 1.3rem + 2.2vw, 2.25rem); font-weight:
 .step-upload .drop { margin-top: 12px; }
 
 .cta {
-  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  min-height: var(--tap); margin-top: 14px; padding: 0 18px;
-  border-radius: var(--radius-md); background: var(--surface); color: var(--fg);
-  box-shadow: inset 0 0 0 1px var(--line);
-  font-size: 0.92rem; font-weight: 500; text-decoration: none;
-  transition: transform var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast), background-color var(--duration-fast);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; min-height: 52px; margin-top: 14px; padding: 0 18px;
+  border-radius: var(--radius-md); background: var(--accent); color: var(--accent-ink);
+  box-shadow: var(--shadow);
+  font-size: 0.98rem; font-weight: 600; text-decoration: none;
+  transition: transform var(--duration-fast) var(--ease-out), background-color var(--duration-fast);
 }
-.cta:hover { box-shadow: inset 0 0 0 1.5px var(--accent); }
-.cta:active { transform: scale(0.98); background: var(--accent-soft); }
+.cta:hover { background: color-mix(in srgb, var(--accent) 88%, var(--fg)); }
+.cta:active { transform: scale(0.98); background: color-mix(in srgb, var(--accent) 80%, var(--fg)); }
 .step-hint { margin: 6px 0 0; font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
 .safe-note {
   display: flex; align-items: center; justify-content: center; gap: 6px;
@@ -324,16 +324,16 @@ h1 { margin: 0; font-size: clamp(1.75rem, 1.3rem + 2.2vw, 2.25rem); font-weight:
 /* ---------- Install ---------- */
 .install {
   display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px;
-  padding: 14px 14px 14px 16px;
-  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-md);
+  margin-top: 12px; padding: 12px;
+  background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--radius-md);
 }
-.install-icon { display: block; width: 44px; height: 44px; border-radius: 11px; }
+.install-icon { display: block; width: 40px; height: 40px; border-radius: 10px; }
 .install-text { min-width: 0; }
-.install-title { margin: 0; font-size: 0.95rem; font-weight: 700; line-height: 1.3; }
+.install-title { margin: 0; font-size: 0.92rem; font-weight: 700; line-height: 1.3; }
 .install-sub { margin: 2px 0 0; font-size: 0.8rem; color: var(--muted); line-height: 1.4; }
 .install-guide {
   grid-column: 1 / -1; margin: 2px 0 0; padding: 12px 14px 12px 32px;
-  background: var(--surface-2); border-radius: var(--radius-sm);
+  background: var(--surface); border-radius: var(--radius-sm);
   font-size: 0.85rem; color: var(--fg); display: grid; gap: 6px;
   animation: reveal var(--duration-normal) var(--ease-out);
 }
