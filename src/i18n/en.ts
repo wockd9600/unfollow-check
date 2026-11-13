@@ -2,17 +2,18 @@ import type { AppMessages, PageMessages } from './ko';
 
 export const page: PageMessages = {
   'meta.title': 'Unfollow Check · See who doesn’t follow you back',
-  'meta.description': 'Use your X (Twitter) archive to see who unfollowed you and who doesn’t follow you back. Your file never leaves your device.',
+  'meta.description': 'Use your X (Twitter) archive to find accounts that don’t follow you back, including ones that unfollowed you. No login, and your file never leaves your device.',
   'meta.appName': 'Unfollow Check',
+  'og.title': 'How many X accounts don’t follow you back?',
+  'og.description': 'Find out with one X archive file. No password, and no server to send your data to.',
 
   'nav.language': 'Language',
-  eyebrow: 'X (Twitter) follow check',
-  title: 'Unfollow Check',
-  titleSub: 'Who doesn’t follow you back',
-  lede: 'Get your archive file from X, drop it in here, and see every account you follow that doesn’t follow you back.',
-  'privacy.title': '<nb>No login.</nb> <nb>No password.</nb>',
-  'privacy.note': 'That’s why you need the archive file X makes for you. This site has no server to send data to — the file is read only inside this browser and is gone when you close the tab.',
-  'privacy.warn': 'Be wary of any site that asks for your X password.',
+  eyebrow: 'Unfollow Check · X (Twitter)',
+  title: '<nb>How many accounts</nb> <nb>don’t follow you back?</nb>',
+  lede: 'Find out with one X archive file. Request it today, and it usually arrives tomorrow.',
+  'privacy.title': '<nb>No server</nb> <nb>to send your data to</nb>',
+  'privacy.note': 'No password asked, nothing stored. That’s why you need the archive file X makes for you. It’s read only inside this browser and is gone when you close the tab.',
+  'privacy.warn': 'Never hand your X password to anyone just to check your follows.',
 
   'upload.heading': 'Add your archive',
   'request.title': 'Request your archive from X',
@@ -47,6 +48,7 @@ export const page: PageMessages = {
   'notes.ids': 'The archive doesn’t include @handles, so accounts show as numeric IDs. Tap a row to open the profile.',
   'notes.suspended': 'Deactivated or suspended accounts also drop out of your followers, so they may appear in “Not following back.”',
   'notes.snapshot': 'Results reflect when your archive was created. Later changes aren’t included.',
+  'notes.unofficial': 'An independent project, not affiliated with X.',
 };
 
 export const app: AppMessages = {

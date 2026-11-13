@@ -1,7 +1,7 @@
 {
   "name": "Unfollow Check",
   "short_name": "Unfollow Check",
-  "description": "See who unfollowed you and who doesn’t follow you back from your X archive. Your file never leaves your device.",
+  "description": "Find accounts that don’t follow you back, including ones that unfollowed you, from your X archive. Your file never leaves your device.",
   "lang": "en",
   "id": "/",
   "start_url": "/en/",

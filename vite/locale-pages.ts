@@ -41,6 +41,8 @@ function valuesFor(locale: Locale): Readonly<Record<string, string>> {
     lang: locale,
     url: SITE_ORIGIN + meta.path,
     manifest: meta.manifest,
+    ogLocale: meta.ogLocale,
+    ogImage: SITE_ORIGIN + meta.ogImage,
   };
 }
 

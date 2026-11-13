@@ -1,18 +1,19 @@
 import type { AppMessages, PageMessages } from './ko';
 
 export const page: PageMessages = {
-  'meta.title': '相互チェック · リムーブ・片思いを確認',
-  'meta.description': 'X(Twitter)のデータアーカイブから、リムーブした人やフォローを返していないアカウントを確認できます。ファイルは端末の外に出ません。',
+  'meta.title': '相互チェック · 片思いのアカウントを確認',
+  'meta.description': 'X(Twitter)のデータアーカイブから、フォローを返していないアカウントを確認できます。リムーブした人もここに含まれます。ログイン不要で、ファイルは端末の外に出ません。',
   'meta.appName': '相互チェック',
+  'og.title': '片思いのXアカウント、いくつある？',
+  'og.description': 'Xのアーカイブファイルひとつで確認できます。パスワード不要、データを受け取るサーバーもありません。',
 
   'nav.language': '言語',
-  eyebrow: 'X(Twitter)フォロー確認',
-  title: '相互チェック',
-  titleSub: 'リムーブ・片思いを確認',
-  lede: 'Xから自分のアーカイブファイルをダウンロードして入れると、片思いのアカウントを見つけます。',
-  'privacy.title': '<nb>ログインも</nb><nb>パスワードも不要</nb>',
-  'privacy.note': 'そのため、Xが作成するアーカイブファイルが必要です。このサイトにはデータを受け取るサーバーがなく、ファイルはこのブラウザの中だけで読み込まれ、閉じると消えます。',
-  'privacy.warn': 'Xのパスワードを求めるサイトには注意してください。',
+  eyebrow: '相互チェック · X(Twitter)',
+  title: '<nb>片思いのアカウント、</nb><nb>いくつある？</nb>',
+  lede: 'Xのアーカイブファイルひとつで確認できます。今日リクエストすれば、たいてい明日届きます。',
+  'privacy.title': '<nb>データを受け取る</nb><nb>サーバーがありません</nb>',
+  'privacy.note': 'パスワードは聞かず、ファイルも保存しません。そのため、Xが作成するアーカイブファイルが必要です。ファイルはこのブラウザの中だけで読み込まれ、閉じると消えます。',
+  'privacy.warn': 'フォロー確認のために、Xのパスワードを他人に渡さないでください。',
 
   'upload.heading': 'アーカイブを入れる',
   'request.title': 'Xにアーカイブをリクエスト',
@@ -47,6 +48,7 @@ export const page: PageMessages = {
   'notes.ids': 'アーカイブには@ユーザー名が含まれないため、数字のアカウントIDで表示されます。行をタップするとプロフィールが開きます。',
   'notes.suspended': '退会・凍結されたアカウントもフォロワーから外れるため、「片思い」に混ざることがあります。',
   'notes.snapshot': 'アーカイブを作成した時点の情報です。それ以降の変化は反映されません。',
+  'notes.unofficial': 'Xとは関係のない個人プロジェクトです。',
 };
 
 export const app: AppMessages = {
